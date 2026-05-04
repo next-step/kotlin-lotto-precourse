@@ -9,12 +9,12 @@ enum class LottoRank(val matchCount: Int, val bonusMatch: Boolean, val prize: Lo
     NONE(0, false, 0);
 
     companion object {
-        fun of(matchCount: Int, bonusMatch: Boolean): LottoRank = when {
-            matchCount == 6 -> FIRST
-            matchCount == 5 && bonusMatch -> SECOND
-            matchCount == 5 -> THIRD
-            matchCount == 4 -> FOURTH
-            matchCount == 3 -> FIFTH
+        fun of(matchCount: Int, bonusMatch: Boolean): LottoRank = when (matchCount) {
+            6 -> FIRST
+            5 if bonusMatch -> SECOND
+            5 -> THIRD
+            4 -> FOURTH
+            3 -> FIFTH
             else -> NONE
         }
     }

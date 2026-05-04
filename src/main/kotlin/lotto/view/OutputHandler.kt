@@ -20,10 +20,10 @@ object OutputHandler {
     }
 
     private fun LottoRank.toDisplayString(count: Int): String {
-        val prizeStr = "%,d".format(prize)
+        val formattedPrize = "%,d".format(prize)
         return when (this) {
-            LottoRank.SECOND -> "5개 일치, 보너스 볼 일치 (${prizeStr}원) - ${count}개"
-            else -> "${matchCount}개 일치 (${prizeStr}원) - ${count}개"
+            LottoRank.SECOND -> "5개 일치, 보너스 볼 일치 (${formattedPrize}원) - ${count}개"
+            else -> "${matchCount}개 일치 (${formattedPrize}원) - ${count}개"
         }
     }
 }
