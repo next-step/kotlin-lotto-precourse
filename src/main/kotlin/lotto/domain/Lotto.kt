@@ -10,6 +10,10 @@ class Lotto(private val numbers: List<Int>) {
 
     fun getNumbers(): List<Int> = numbers.sorted()
 
+    fun countMatch(winningNumbers: List<Int>): Int = numbers.count { it in winningNumbers }
+
+    fun contains(number: Int): Boolean = number in numbers
+
     companion object {
         const val NUMBER_COUNT = 6
         const val MIN_NUMBER = 1
