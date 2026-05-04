@@ -2,13 +2,10 @@ package lotto.domain
 
 class LottoResult(
     lottos: List<Lotto>,
-    winningNumbers: List<Int>,
-    bonusNumber: Int,
+    winningLotto: WinningLotto,
     private val purchaseAmount: Int,
 ) {
-    private val ranks: List<LottoRank> = lottos.map { lotto ->
-        LottoRank.of(lotto.countMatch(winningNumbers), lotto.contains(bonusNumber))
-    }
+    private val ranks: List<LottoRank> = lottos.map { winningLotto.match(it) }
 
     fun countByRank(rank: LottoRank): Int = ranks.count { it == rank }
 

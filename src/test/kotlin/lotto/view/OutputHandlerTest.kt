@@ -4,6 +4,7 @@ import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
 import lotto.domain.Lotto
 import lotto.domain.LottoResult
+import lotto.domain.WinningLotto
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
@@ -42,10 +43,8 @@ class OutputHandlerTest : StringSpec({
             Lotto(listOf(1, 2, 3, 4, 5, 7)), // 2등
             Lotto(listOf(1, 2, 3, 4, 10, 11)) // 4등
         )
-        val winningNumbers = listOf(1, 2, 3, 4, 5, 6)
-        val bonusNumber = 7
-        val purchaseAmount = 3000
-        val result = LottoResult(lottos, winningNumbers, bonusNumber, purchaseAmount)
+        val winningLotto = WinningLotto(listOf(1, 2, 3, 4, 5, 6), 7)
+        val result = LottoResult(lottos, winningLotto, 3000)
 
         OutputHandler.printResult(result)
 
