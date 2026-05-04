@@ -13,7 +13,8 @@ object OutputHandler {
     fun printResult(result: LottoResult) {
         println("\n당첨 통계")
         println("---")
-        listOf(LottoRank.FIFTH, LottoRank.FOURTH, LottoRank.THIRD, LottoRank.SECOND, LottoRank.FIRST)
+        LottoRank.entries
+            .filter { it != LottoRank.NONE }
             .forEach { rank -> println(rank.toDisplayString(result.countByRank(rank))) }
         println("총 수익률은 ${"%.1f".format(result.profitRate())}%입니다.")
     }
