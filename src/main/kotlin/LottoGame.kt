@@ -5,6 +5,10 @@ class LottoGame {
         val amount = readPurchaseAmount()
         val lottos = buyLottos(amount)
         printLottos(lottos)
+
+        // Step 3 추가: 당첨 번호 및 보너스 번호 입력
+        val winningNumbers = readWinningNumbers()
+        val bonusNumber = readBonusNumber(winningNumbers)
     }
 
     private fun readPurchaseAmount(): Int {
@@ -30,8 +34,32 @@ class LottoGame {
     }
 
     private fun printLottos(lottos: List<Lotto>) {
-        lottos.forEach { lotto ->
-            println(lotto.getNumbers())
+        lottos.forEach { println(it.getNumbers()) }
+    }
+
+    // --- Step 3 ---
+
+    private fun readWinningNumbers(): List<Int> {
+        println("\n당첨 번호를 입력해 주세요.")
+        val input = readln()
+        val numbers = input.split(",").map { it.trim().toIntOrNull() ?: throw IllegalArgumentException("숫자를 입력해 주세요.") }
+        return Lotto(numbers).getNumbers() // Lotto 클래스의 init 블록을 통해 검증 수행
+    }
+
+    private fun readBonusNumber(winningNumbers: List<Int>): Int {
+        println("\n보너스 번호를 입력해 주세요.")
+        val input = readln()
+        val bonus = input.toIntOrNull() ?: throw IllegalArgumentException("숫자를 입력해 주세요.")
+        validateBonus(winningNumbers, bonus)
+        return bonus
+    }
+
+    private fun validateBonus(winningNumbers: List<Int>, bonus: Int) {
+        if (bonus !in 1..45) {
+            throw IllegalArgumentException("보너스 번호는 1에서 45 사이여야 합니다.")
+        }
+        if (winningNumbers.contains(bonus)) {
+            throw IllegalArgumentException("보너스 번호는 당첨 번호와 중복될 수 없습니다.")
         }
     }
 }
