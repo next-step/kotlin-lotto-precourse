@@ -3,7 +3,8 @@ import kotlin.random.Random;
 object LottoGenerator {
 
     fun generate(amount: Int): List<Lotto> {
-        return List(amount) { Lotto(generateNumbers()) }
+        val count = amount / 1000
+        return List(count) { Lotto(generateNumbers()) }
     }
 
     private fun generateNumbers(): Set<Int> {

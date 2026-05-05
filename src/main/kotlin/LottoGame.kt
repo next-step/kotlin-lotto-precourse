@@ -8,7 +8,7 @@ class LottoGame {
     fun run() {
         val purchase = InputView.readPurchaseAmount()
 
-        val lottos = LottoGenerator.generate(purchase / 1000)
+        val lottos = LottoGenerator.generate(purchase)
 
         OutputView.printLottos(lottos)
 
