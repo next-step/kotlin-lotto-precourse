@@ -14,6 +14,16 @@ class LottoGame {
         printStatistics(results, amount)
     }
 
+    private fun <T> retryInput(action: () -> T): T {
+        while (true) {
+            try {
+                return action()
+            } catch (e: IllegalArgumentException) {
+                println("[ERROR] ${e.message}")
+            }
+        }
+    }
+
     private fun readPurchaseAmount(): Int {
         println("구입금액을 입력해 주세요.")
         val input = readln()
@@ -39,8 +49,6 @@ class LottoGame {
     private fun printLottos(lottos: List<Lotto>) {
         lottos.forEach { println(it.getNumbers()) }
     }
-
-    // --- Step 3 ---
 
     private fun readWinningNumbers(): List<Int> {
         println("\n당첨 번호를 입력해 주세요.")
