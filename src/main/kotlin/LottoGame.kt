@@ -9,6 +9,9 @@ class LottoGame {
         // Step 3 추가: 당첨 번호 및 보너스 번호 입력
         val winningNumbers = readWinningNumbers()
         val bonusNumber = readBonusNumber(winningNumbers)
+
+        val results = calculateResults(lottos, winningNumbers, bonusNumber)
+        printStatistics(results, amount)
     }
 
     private fun readPurchaseAmount(): Int {
@@ -61,5 +64,36 @@ class LottoGame {
         if (winningNumbers.contains(bonus)) {
             throw IllegalArgumentException("보너스 번호는 당첨 번호와 중복될 수 없습니다.")
         }
+    }
+
+    private fun calculateResults(lottos: List<Lotto>, winning: List<Int>, bonus: Int): Map<LottoRank, Int> {
+        val statistics = mutableMapOf<LottoRank, Int>()
+        lottos.forEach { lotto ->
+            val rank = checkRank(lotto, winning, bonus)
+            statistics[rank] = statistics.getOrDefault(rank, 0) + 1
+        }
+        return statistics
+    }
+
+    private fun checkRank(lotto: Lotto, winning: List<Int>, bonus: Int): LottoRank {
+        val numbers = lotto.getNumbers()
+        val matchCount = numbers.intersect(winning.toSet()).size
+        val bonusMatch = numbers.contains(bonus)
+        return LottoRank.valueOf(matchCount, bonusMatch)
+    }
+
+    private fun printStatistics(results: Map<LottoRank, Int>, amount: Int) {
+        println("\n당첨 통계\n---")
+        LottoRank.entries.reversed().filter { it != LottoRank.NONE }.forEach { rank ->
+            val count = results.getOrDefault(rank, 0)
+            println("${rank.message} - ${count}개")
+        }
+        printProfitRate(results, amount)
+    }
+
+    private fun printProfitRate(results: Map<LottoRank, Int>, amount: Int) {
+        val totalPrize = results.entries.sumOf { it.key.prize.toLong() * it.value }
+        val profitRate = (totalPrize.toDouble() / amount) * 100
+        println("총 수익률은 ${String.format("%.1f", profitRate)}%입니다.")
     }
 }
