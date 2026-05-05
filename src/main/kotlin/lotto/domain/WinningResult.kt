@@ -11,6 +11,10 @@ data class WinningResult(val ranks: List<Rank>) {
         return profitRate.setScale(2, RoundingMode.HALF_UP).toDouble()
     }
 
+    fun countByRank(rank: Rank): Int {
+        return ranks.count { it == rank }
+    }
+
     private fun calculateTotalPrize(): Int {
         return ranks.sumOf { it.prize }
     }

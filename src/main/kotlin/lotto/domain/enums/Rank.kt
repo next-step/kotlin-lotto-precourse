@@ -12,6 +12,12 @@ enum class Rank(
     FIFTH(3, false, 5_000),
     NONE(0, false, 0);
 
+    fun getDescription(): String {
+        if (this == NONE) return ""
+        if (bonusMatch) return "${matchCount}개 일치, 보너스 볼 일치"
+        return "${matchCount}개 일치"
+    }
+
     companion object {
         fun of(matchCount: Int, bonusMatch: Boolean): Rank {
             return entries.find { it.matchCount == matchCount && it.bonusMatch == bonusMatch }
