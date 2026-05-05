@@ -22,35 +22,35 @@ class WinningResultTest {
     @Test
     fun `5등 1개 당첨 시 수익률을 계산한다`() {
         // given
-        val ranks = listOf(Rank.FIFTH, Rank.NONE, Rank.NONE)
+        val ranks = listOf(Rank.FIFTH)
         val winningResult = WinningResult(ranks)
-        val purchaseAmount = PurchaseAmount(3000)
+        val purchaseAmount = PurchaseAmount(1000)
 
         // when
         val profitRate = winningResult.calculateProfitRate(purchaseAmount)
 
         // then
-        assertThat(profitRate).isEqualTo(166.67)
+        assertThat(profitRate).isEqualTo(500.0)
     }
 
     @Test
     fun `여러 등수 당첨 시 총 수익률을 계산한다`() {
         // given
-        val ranks = listOf(Rank.FIFTH, Rank.FOURTH, Rank.NONE)
+        val ranks = listOf(Rank.FIFTH, Rank.FOURTH)
         val winningResult = WinningResult(ranks)
-        val purchaseAmount = PurchaseAmount(3000)
+        val purchaseAmount = PurchaseAmount(2000)
 
         // when
         val profitRate = winningResult.calculateProfitRate(purchaseAmount)
 
         // then
-        assertThat(profitRate).isEqualTo(1833.33)
+        assertThat(profitRate).isEqualTo(2750.0)
     }
 
     @Test
     fun `소수점 셋째 자리에서 반올림한다`() {
         // given
-        val ranks = listOf(Rank.FIFTH, Rank.FIFTH, Rank.NONE)
+        val ranks = listOf(Rank.FIFTH, Rank.FIFTH, Rank.FIFTH)
         val winningResult = WinningResult(ranks)
         val purchaseAmount = PurchaseAmount(3000)
 
@@ -58,7 +58,7 @@ class WinningResultTest {
         val profitRate = winningResult.calculateProfitRate(purchaseAmount)
 
         // then
-        assertThat(profitRate).isEqualTo(333.33)
+        assertThat(profitRate).isEqualTo(500.0)
     }
 
     @Test
