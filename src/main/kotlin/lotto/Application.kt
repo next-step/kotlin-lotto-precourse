@@ -8,15 +8,21 @@ import lotto.view.InputView
 import lotto.view.OutputView
 
 fun main() {
-    val purchaseAmount = PurchaseAmount(InputView.readPurchaseAmount())
+    val purchaseAmount = retryOnError { PurchaseAmount(InputView.readPurchaseAmount()) }
     val lottos = List(purchaseAmount.lottoCount()) { Lotto.generate() }
     OutputView.printLottos(lottos)
 
-    val winningLotto = WinningLotto(
-        numbers = Lotto(InputView.readWinningNumbers()),
-        bonusNumber = InputView.readBonusNumber(),
-    )
+    val winningNumbers = retryOnError { Lotto(InputView.readWinningNumbers()) }
+    val winningLotto = retryOnError { WinningLotto(winningNumbers, InputView.readBonusNumber()) }
 
     val result = LottoResult(lottos, winningLotto, purchaseAmount)
     OutputView.printResult(result)
+}
+
+private fun <T> retryOnError(action: () -> T): T {
+    while (true) {
+        val result = runCatching { action() }
+        if (result.isSuccess) return result.getOrThrow()
+        println(result.exceptionOrNull()?.message)
+    }
 }
